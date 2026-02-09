@@ -9,8 +9,8 @@ variable_a = 0
 variable_b = "John Python"
 
 # You can use the Print function to show on the console the value of the variable
-
-print(variable_a)
+  
+print(variable_a) 
 print(variable_b)
 
 # You can use the print(f" ") to display variables direct on the message

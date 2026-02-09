@@ -1,4 +1,4 @@
-# Welcome to MikuBar!
+# Welcome to MikuBar! yippe
 
 print("*u* Welcome to ()Oo. Mikubar .oO()!")
 userName = input("Please tell me your name: ")

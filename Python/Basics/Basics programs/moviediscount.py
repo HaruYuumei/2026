@@ -1,4 +1,4 @@
-# Movie ticket discount!
+# Movie ticket discount! wow
 
 userAge = int(input("Type your age:"))
 isStudent = input("Are you an Student: yes or no ")

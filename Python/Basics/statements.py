@@ -116,7 +116,7 @@ print(f"M value is : {m}")
 
 # You can add multiples statements like this too, but keep it short so the code is readable
 
-var_c = 300
+var_c = 300 
 var_d = 500
 print("C") if var_c>var_d else print("=") if var_d==var_c else print("D") #print C if C is bigger = if both are equal or D if D is bigger
 

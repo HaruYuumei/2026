@@ -1,3 +1,4 @@
+# some small stuff
 
 userPassword = input("Type your password: ")
 userAge = int(input("Type your age: "))
