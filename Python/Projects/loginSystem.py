@@ -69,7 +69,11 @@ def create_account():
         #check if username already exists:
         with open("Accounts.txt") as f:
             for rows in f:
-                if user in rows: # there might be some bug here, need to change it
+                
+                line = rows
+                lineInfo = line.split(":")
+                
+                if user == lineInfo[0]:
                     print("Username already in use, pick another one")
                     break
                 elif ":" in user:
