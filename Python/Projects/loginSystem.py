@@ -26,16 +26,9 @@ def open_datas():
 # writing on the file
 def write_data(**kwargs): # kwargs is a dictonary
     with open("Accounts.txt","a") as f:
-        f.write(kwargs["username"])
-        f.write(" : ")
-        f.write(kwargs["password"])
-        f.write("\n")
+        f.write(kwargs["username"]+":"+kwargs["password"]+"\n")
 
 # write_data( user = username,password = password) # you pass the key and the value to the kwargs dictonary
-
-def getUserInput():
-    userInput = input()
-    return userInput
 
 # checking infos
 def loginCheck(**kwargs):
@@ -45,20 +38,22 @@ def loginCheck(**kwargs):
         pwd = kwargs["password"]
 
         for rows in f:
-            line = f.readline()
-            l1 = line[0:len(user)]
-            l2 = line[len(user)+3:] # +3 to skip the " : " from the line
+            
+            line = rows
+            lineInfo = line.split(":")
 
-            if user.strip() == l1.strip():
-                if pwd.strip() == l2.strip():
+            if user.strip() == lineInfo[0].strip():
+                if pwd.strip() == lineInfo[1].strip():
                     print("proceed login")
                     isLogged = True
                     return isLogged
-            else:
-                print("invalid user/password")
+                else:
+                    print("Invalid password")
+                    break
         else:
-            print("Unable to find User, please create an account")
+            print("Unable to find User")
             create_account() # I'm sending the create account now, it will be moved later to the create account page
+
 
 
 # create account 
@@ -69,29 +64,37 @@ def create_account():
     print("please input the wished username:")
 
     while username == None: #loop for username check
-        input = getUserInput()
+        user = input()
 
         #check if username already exists:
         with open("Accounts.txt") as f:
             for rows in f:
-                if input in rows: # there might be some bug here, need to change it
+                if user in rows: # there might be some bug here, need to change it
                     print("Username already in use, pick another one")
                     break
-                else:
-                    username = input
+                elif ":" in user:
+                    print("usernames must have only leters and numbers")
                     break
+                elif " " in user:
+                    print("usernames must have only letters and numbers")
+                    break
+            else:
+                username = user
+                break
+
                    
     print("Now please type your wished password:")
     while password == None: # loop for password
         
-        input = getUserInput()
+        pwd = input()
 
         #check if password matches security test
-        if len(input) < 5:
+        if len(pwd) < 5:
             print("Password must have at least 5 inputs")
             print("type again")
+
         else:
-            password=input
+            password=pwd
             break
         
     write_data(username=username,password = password)
@@ -109,11 +112,11 @@ while not isLogged:
     print("#======================#")
     print("#=   Type your user:  =#")
     
-    userInput = getUserInput()
+    userInput = input()
     userinfo["username"] = userInput
     
     print("#= Type your password:=#")
-    userInput = getUserInput()
+    userInput = input()
     userinfo["password"] = userInput
 
     print("#=   Checking Infos   =#")
