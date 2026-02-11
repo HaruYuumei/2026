@@ -8,6 +8,7 @@
 # verify account password ->
 
 import os
+isLogged = False
 
 #creating file
 if os.path.exists("Accounts.txt"):
@@ -16,7 +17,7 @@ else:
     file = open("Accounts.txt","x")  
     print("Account logs created")  
 
-#Opening and reading file
+#Opening and reading file  | not using this right now might delete it 
 def open_datas():
     with open("Accounts.txt") as f:
         for x in f:
@@ -39,18 +40,25 @@ def getUserInput():
 # checking infos
 def loginCheck(**kwargs):
     with open("Accounts.txt") as f:
+
+        user = kwargs["username"]
+        pwd = kwargs["password"]
+
         for rows in f:
-            if kwargs["username"] in rows:
-                print("username found!")
-                if kwargs["password"] in rows:
-                    print("password matched")
-                    break
-                else:
-                    print("Login found, but password mismatch!")
+            line = f.readline()
+            l1 = line[0:len(user)]
+            l2 = line[len(user)+3:] # +3 to skip the " : " from the line
+
+            if user.strip() == l1.strip():
+                if pwd.strip() == l2.strip():
+                    print("proceed login")
+                    isLogged = True
+                    return isLogged
+            else:
+                print("invalid user/password")
         else:
-            print("No login info found")
-            print("Please create an account to continue:")
-            create_account()
+            print("Unable to find User, please create an account")
+            create_account() # I'm sending the create account now, it will be moved later to the create account page
 
 
 # create account 
@@ -66,7 +74,7 @@ def create_account():
         #check if username already exists:
         with open("Accounts.txt") as f:
             for rows in f:
-                if input in rows:
+                if input in rows: # there might be some bug here, need to change it
                     print("Username already in use, pick another one")
                     break
                 else:
@@ -79,7 +87,7 @@ def create_account():
         input = getUserInput()
 
         #check if password matches security test
-        if len(input) <= 5:
+        if len(input) < 5:
             print("Password must have at least 5 inputs")
             print("type again")
         else:
@@ -93,7 +101,8 @@ def create_account():
 
 
 
-while True:
+while not isLogged:
+
     userinfo :dict[str,str] = {}
     print("#======================#") #22
     print("#=        Login       =#")
@@ -108,10 +117,6 @@ while True:
     userinfo["password"] = userInput
 
     print("#=   Checking Infos   =#")
-    loginCheck(username = userinfo["username"], password=userinfo["password"])
+    isLogged = loginCheck(username = userinfo["username"], password=userinfo["password"])
 
     
-    
-
-###### FIX LOGIN ERROR
-###### FIX LOGIC ON LOGINCHECK

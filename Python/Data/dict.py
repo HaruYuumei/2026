@@ -22,7 +22,7 @@
 player = {
     "userName" : "Ren",  # KEY : Value
     "age" : 18,
-    "role" : "Healer" 
+    "role" : "Healer"
 }
 # To read a dictonary value you don't Index it, you get the KEY instead
 
