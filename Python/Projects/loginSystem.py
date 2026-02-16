@@ -45,8 +45,7 @@ def loginCheck(**kwargs):
             if user.strip() == lineInfo[0].strip():
                 if pwd.strip() == lineInfo[1].strip():
                     print("proceed login")
-                    isLogged = True
-                    return isLogged
+                    return True
                 else:
                     print("Invalid password")
                     break
@@ -73,7 +72,7 @@ def create_account():
                 line = rows
                 lineInfo = line.split(":")
                 
-                if user == lineInfo[0]:
+                if user == lineInfo[0].strip():
                     print("Username already in use, pick another one")
                     break
                 elif ":" in user:
