@@ -1,50 +1,85 @@
 
-# hangman game 
-#
-# 3 difficults
-#  easy = 5 letter words
-# normal = 5 to 12 letter words
-# hard = 8 to 12 letter words
+#THIS REQUIRES WONDERWORDS: https://pypi.org/project/wonderwords/
 
-#word pool
+#hangman logic:
+
+#  generate a random word
+
+# Ask user for input
+
+# verify if userInput is present in the random word
+# If it is, store the letter on a list with index and store the guessed letter and add correct point
+# If its not, remove one chance from the chances and store the guessed letter
+
+# if user have no more chances, end game
+# if user found all letters, win the game
+
+
+# GAME IS WORKING: ROADMAP:
+# - Difficulty levels
+# - Menu with selections
+# - Word Mode
+
+
 from wonderwords import RandomWord
 
+ww = RandomWord()
 
+generated_word = ww.word(word_min_length = 5, word_max_length = 5)      #generating a random word of 5 letters
+allguesses = ' '
+playing = 0
+correct = 0
+chances = len(generated_word) + 3
 
-def randomWord(size):
-    random_word = RandomWord().word(word_min_length = size,word_max_length = size)
-    guess_word = random_word
-    return guess_word
+# print(generated_word)
+word = ['_'] * len(generated_word)
 
+while playing == 0:    
+    try:
+        try:    
+            user_guess = input("Type a letter:")
+        except:
+            print("Please insert only one letter")
 
-def hangman(word):
+        # Verify input
+        if not user_guess.isalpha():
+            print("Input only ONE LETTER")
+        elif len(user_guess) > 1:
+            print("Input only ONE LETTER")
+        elif user_guess in allguesses:
+            print("Already guessed this letter")
+       
+        #verify if user guess is on the word
+        if user_guess in generated_word and user_guess not in allguesses:
 
-    guess_word = word
+            for index in range(len(generated_word)):
+                if generated_word[index] == user_guess:
+                    word[index] = user_guess
+                    correct += 1
+            
+            print("letter found")
+            allguesses += user_guess
 
-    guessed=[]
-    trys = []
-    answer = guessed
-    print(answer)
-    while True:
-        guess = input()
-        trys.append(guess)
-        for index in range(0,len(guess_word)):
-            if guess_word[index] == guess:
-                guessed.insert(index,guess)
-        print(guessed)
+        else:
+            print(f"No {user_guess} in the secret word")
+            allguesses += user_guess
+            chances-=1
 
-        if answer == guess_word:
+        if correct == len(generated_word):
+            print("You got it!")
+            print(f"The word was: {word}")
             break
-    
-    print(guess_word,guessed)
+
+        # End game if 0 chances
+        if chances <=0:
+            print("Game over, you didn't found the secret word")
+            print(f"The Secret word was: {generated_word}")
+            playing = 1
+            break
         
+        print(word)
 
-def main():
-    generated_word = randomWord(8)
-    print(generated_word)
-    hangman(generated_word)
-    
-
-
-
-main()
+    except KeyboardInterrupt:
+        print()
+        print("Leaving...")
+        quit()
