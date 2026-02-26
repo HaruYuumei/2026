@@ -48,6 +48,7 @@ while playing == 0:
             print("Input only ONE LETTER")
         elif user_guess in allguesses:
             print("Already guessed this letter")
+            continue
        
         #verify if user guess is on the word
         if user_guess in generated_word and user_guess not in allguesses:
